@@ -4,6 +4,8 @@
 	// x选取目标后点击自己会break 
 // added:
 	// multiple player characters
+// next:
+	// show characters' hand
 
 // 10/11 v0.2
 // added:
