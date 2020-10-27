@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour
 	public int selectCharacter = 2;
 	public int selectGrid = 3;
 
-	public Vector3 destinationPos;
-
 	public List<CardScriptableObject> hand;
 	public List<CardScriptableObject> playerHand;
 	public List<CardScriptableObject> temp;
@@ -73,27 +71,41 @@ public class GameManager : MonoBehaviour
 			{
 				player.GetComponent<PlayerScript>().hand = DrawPlayerHand(player.GetComponent<PlayerScript>().deck, player);
 			}
-			//if (characters[0].GetComponent<CharacterScript>().hand.Count == characters[0].GetComponent<CharacterScript>().handSize &&
-			//	player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
-			//{
-			//	state = selectCharacter;
-			//}
+			if (player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
+			{
+				int drawCompleteNum = 0;
+				for (int i = 0; i < characters.Count; i++)
+				{
+					if (characters[i].GetComponent<CharacterScript>().drawComplete)
+					{
+						drawCompleteNum++;
+					}
+				}
+				if (drawCompleteNum == characters.Count)
+				{
+					state = selectCharacter;
+				}
+			}
 		}
 		else if (state == selectGrid)
 		{
 			//if (destinationPos != cs.transform.position)
 			//{
 			//	// need to check if the destination is available to move to
+
+				//	characters[0].transform.position = destinationPos;
+				//	state = selectCharacter;
+				//	characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
+				//}
+			if (Input.GetMouseButtonDown(1))
+			{
+				state = selectCharacter;
+				for (int i = 0; i < characters.Count; i++)
+				{
+					characters[i].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
+				}
 				
-			//	characters[0].transform.position = destinationPos;
-			//	state = selectCharacter;
-			//	characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
-			//}
-			//else if (Input.GetMouseButtonDown(1))
-			//{
-			//	state = selectCharacter;
-			//	characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
-			//}
+			}
 		}
 	}
 
@@ -109,6 +121,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (hand.Count == owner.GetComponent<CharacterScript>().handSize)
 		{
+			temp.Clear();
 			return hand;
 		}
 		else
@@ -129,6 +142,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (playerHand.Count == owner.GetComponent<PlayerScript>().handSize)
 		{
+			temp.Clear();
 			return playerHand;
 		}
 		else

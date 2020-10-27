@@ -16,9 +16,12 @@ public class CharacterScript : MonoBehaviour
 
 	public bool drawComplete = false;
 
+	public Vector3 destinationPos;
+
 	private void Start()
 	{
 		hand = new List<CardScriptableObject>();
+		destinationPos = transform.position;
 	}
 
 	private void OnMouseOver()
@@ -30,15 +33,15 @@ public class CharacterScript : MonoBehaviour
 			{
 				if (hightlightFrame.activeSelf)
 				{
-					hightlightFrame.SetActive(false);
-					GameManager.me.state = GameManager.me.selectCharacter;
-					GetComponent<BoxCollider2D>().enabled = false;
+					//hightlightFrame.SetActive(false);
+					//GameManager.me.state = GameManager.me.selectCharacter;
+					//GetComponent<BoxCollider2D>().enabled = false;
 				}
 				else
 				{
 					GameManager.me.cs = gameObject.GetComponent<CharacterScript>();
 					hightlightFrame.SetActive(true);
-					GameManager.me.destinationPos = transform.position;
+					destinationPos = transform.position;
 					GameManager.me.state = GameManager.me.selectGrid;
 					GetComponent<BoxCollider2D>().enabled = true;
 				}
@@ -59,14 +62,18 @@ public class CharacterScript : MonoBehaviour
 			{
 				hand = GameManager.me.DrawCharacterHand(deck, gameObject);
 			}
+			else if (hand.Count == handSize)
+			{
+				drawComplete = true;
+			}
 		}
 		else if (GameManager.me.state == GameManager.me.selectGrid)
 		{
-			if (GameManager.me.destinationPos != transform.position)
+			if (destinationPos != transform.position)
 			{
 				// need to check if the destination is available to move to
 
-				transform.position = GameManager.me.destinationPos;
+				transform.position = destinationPos;
 				GameManager.me.state = GameManager.me.selectCharacter;
 				hightlightFrame.SetActive(false);
 			}
