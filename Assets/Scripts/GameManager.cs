@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> characters; // 角色
 	public List<GameObject> enemies; // 敌人角色
 	public Vector3 initialPos1;
+	public List<Vector3> initialPoses;
 	public List<int> initialRow;
 	public List<int> initialCol;
 	public Vector3 enm_initialPos1;
@@ -34,12 +35,21 @@ public class GameManager : MonoBehaviour
 	// show target
 	public GameObject line;
 
+	// initialize characters
+	public List<GameObject> p_charaPrefabs;
+
 	private void Start()
 	{
 		me = this;
-		characters[0].transform.position = initialPos1;
-		characters[0].GetComponent<CharacterScript>().row = initialRow[0];
-		characters[0].GetComponent<CharacterScript>().column = initialCol[0];
+		for (int i = 0; i < p_charaPrefabs.Count; i++)
+		{
+			GameObject thisChara = Instantiate(p_charaPrefabs[i]);
+			thisChara.transform.position = initialPoses[i];
+			thisChara.GetComponent<CharacterScript>().row = initialRow[i];
+			thisChara.GetComponent<CharacterScript>().column = initialCol[i];
+			characters.Add(thisChara);
+		}
+		
 		enemies[0].transform.position = enm_initialPos1;
 		enemies[0].GetComponent<EnemyScript>().row = enm_initialRow;
 		enemies[0].GetComponent<EnemyScript>().col = enm_initialCol;
@@ -55,39 +65,39 @@ public class GameManager : MonoBehaviour
 		
 		if (state == draw)
 		{
-			if (characters[0].GetComponent<CharacterScript>().hand.Count == 0)
-			{
-				characters[0].GetComponent<CharacterScript>().hand = DrawCharacterHand(characters[0].GetComponent<CharacterScript>().deck, characters[0]);
-			}
+			//if (characters[0].GetComponent<CharacterScript>().hand.Count == 0)
+			//{
+			//	characters[0].GetComponent<CharacterScript>().hand = DrawCharacterHand(characters[0].GetComponent<CharacterScript>().deck, characters[0]);
+			//}
 			if (player.GetComponent<PlayerScript>().hand.Count == 0)
 			{
 				player.GetComponent<PlayerScript>().hand = DrawPlayerHand(player.GetComponent<PlayerScript>().deck, player);
 			}
-			if (characters[0].GetComponent<CharacterScript>().hand.Count == characters[0].GetComponent<CharacterScript>().handSize &&
-				player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
-			{
-				state = selectCharacter;
-			}
+			//if (characters[0].GetComponent<CharacterScript>().hand.Count == characters[0].GetComponent<CharacterScript>().handSize &&
+			//	player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
+			//{
+			//	state = selectCharacter;
+			//}
 		}
 		else if (state == selectGrid)
 		{
-			if (destinationPos != characters[0].transform.position)
-			{
-				// need to check if the destination is available to move to
+			//if (destinationPos != cs.transform.position)
+			//{
+			//	// need to check if the destination is available to move to
 				
-				characters[0].transform.position = destinationPos;
-				state = selectCharacter;
-				characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
-			}
-			else if (Input.GetMouseButtonDown(1))
-			{
-				state = selectCharacter;
-				characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
-			}
+			//	characters[0].transform.position = destinationPos;
+			//	state = selectCharacter;
+			//	characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
+			//}
+			//else if (Input.GetMouseButtonDown(1))
+			//{
+			//	state = selectCharacter;
+			//	characters[0].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
+			//}
 		}
 	}
 
-	private List<CardScriptableObject> DrawCharacterHand(List<CardScriptableObject> deck, GameObject owner)
+	public List<CardScriptableObject> DrawCharacterHand(List<CardScriptableObject> deck, GameObject owner)
 	{
 		hand.Clear();
 		CopyList(deck, temp);
@@ -135,7 +145,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	void ShowTarget(Vector3 start, Vector3 end)
+	public void ShowTarget(Vector3 start, Vector3 end)
 	{
 		//GameObject myLine = Instantiate(line);
 		//myLine.GetComponent<LineRenderer>().SetPosition(0, start);

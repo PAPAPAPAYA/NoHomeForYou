@@ -47,10 +47,18 @@ public class GridScript : MonoBehaviour
 					column >= GameManager.me.cs.column - 1 &&
 					column <= GameManager.me.cs.column + 1)
 				{
-					GameManager.me.destinationPos = transform.position;
-					GameManager.me.cs.row = row;
-					GameManager.me.cs.column = column;
-					GameManager.me.cs = null;
+					if (row == GameManager.me.cs.row &&
+						column == GameManager.me.cs.column)
+					{
+
+					}
+					else
+					{
+						GameManager.me.destinationPos = transform.position;
+						GameManager.me.cs.row = row;
+						GameManager.me.cs.column = column;
+						GameManager.me.cs = null;
+					}
 				}
 			}
 		}
