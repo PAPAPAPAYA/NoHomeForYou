@@ -14,6 +14,9 @@ public class EnemyScript : MonoBehaviour
 			if (Input.GetMouseButtonDown(0))
 			{
 				GameManager.me.cs.target = gameObject;
+				GameManager.me.cs.hightlightFrame.SetActive(false);
+				GameManager.me.cs = null;
+				GameManager.me.state = GameManager.me.selectCharacter;
 			}
 		}
 	}

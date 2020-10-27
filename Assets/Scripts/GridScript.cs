@@ -47,10 +47,31 @@ public class GridScript : MonoBehaviour
 					column >= GameManager.me.cs.column - 1 &&
 					column <= GameManager.me.cs.column + 1)
 				{
-					GameManager.me.destinationPos = transform.position;
-					GameManager.me.cs.row = row;
-					GameManager.me.cs.column = column;
-					GameManager.me.cs = null;
+					// check if this grid is not under the character
+					if (row == GameManager.me.cs.row &&
+						column == GameManager.me.cs.column)
+					{
+
+					}
+					else
+					{
+						int occupied = 0;
+						for (int i = 0; i < GameManager.me.characters.Count; i++)
+						{
+							if (GameManager.me.characters[i].GetComponent<CharacterScript>().row == row &&
+								GameManager.me.characters[i].GetComponent<CharacterScript>().column == column)
+							{
+								occupied++;
+							}
+						}
+						if (occupied == 0)
+						{
+							GameManager.me.cs.destinationPos = transform.position;
+							GameManager.me.cs.row = row;
+							GameManager.me.cs.column = column;
+							GameManager.me.cs = null;
+						}
+					}
 				}
 			}
 		}
