@@ -2,7 +2,8 @@
 // 10/25 v0.3
 // bug:
 	// x选取目标后点击自己会break 
-
+// added:
+	// multiple player characters
 
 // 10/11 v0.2
 // added:
