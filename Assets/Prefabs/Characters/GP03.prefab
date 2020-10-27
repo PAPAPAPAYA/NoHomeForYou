@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3452994261821928528}
   - component: {fileID: 3452994261821928531}
   m_Layer: 0
-  m_Name: GP01
+  m_Name: GP03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +112,10 @@ MonoBehaviour:
   column: 0
   handSize: 6
   target: {fileID: 0}
+  drawComplete: 0
+  destinationPos: {x: 0, y: 0, z: 0}
+  linePrefab: {fileID: 5476725128671984444, guid: 8c3a5fe4618e8c147b8285ccd58c6b68,
+    type: 3}
 --- !u!61 &3452994261821928531
 BoxCollider2D:
   m_ObjectHideFlags: 0

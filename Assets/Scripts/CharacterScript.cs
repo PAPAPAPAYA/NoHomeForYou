@@ -18,10 +18,15 @@ public class CharacterScript : MonoBehaviour
 
 	public Vector3 destinationPos;
 
+	// show target
+	public GameObject linePrefab;
+	GameObject myLine;
+
 	private void Start()
 	{
 		hand = new List<CardScriptableObject>();
 		destinationPos = transform.position;
+		myLine = Instantiate(linePrefab);
 	}
 
 	private void OnMouseOver()
@@ -53,7 +58,7 @@ public class CharacterScript : MonoBehaviour
 	{
 		if (target != null)
 		{
-			GameManager.me.ShowTarget(transform.position, target.transform.position);
+			GameManager.me.ShowTarget(myLine,transform.position, target.transform.position);
 		}
 
 		if (GameManager.me.state == GameManager.me.draw)

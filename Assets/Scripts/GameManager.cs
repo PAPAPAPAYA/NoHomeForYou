@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 	public CharacterScript cs;
 
 	// show target
-	public GameObject line;
+	//public GameObject line;
 
 	// initialize characters
 	public List<GameObject> p_charaPrefabs;
@@ -56,10 +56,10 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (characters[0].GetComponent<CharacterScript>().target != null)
-		{
-			ShowTarget(characters[0].transform.position, characters[0].GetComponent<CharacterScript>().target.transform.position);
-		}
+		//if (characters[0].GetComponent<CharacterScript>().target != null)
+		//{
+		//	ShowTarget(characters[0].transform.position, characters[0].GetComponent<CharacterScript>().target.transform.position);
+		//}
 		
 		if (state == draw)
 		{
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
 				{
 					characters[i].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
 				}
-				
 			}
 		}
 	}
@@ -159,7 +158,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void ShowTarget(Vector3 start, Vector3 end)
+	public void ShowTarget(GameObject line, Vector3 start, Vector3 end)
 	{
 		//GameObject myLine = Instantiate(line);
 		//myLine.GetComponent<LineRenderer>().SetPosition(0, start);
