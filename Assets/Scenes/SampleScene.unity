@@ -227,15 +227,15 @@ MonoBehaviour:
   state: 0
   draw: 1
   selectCharacter: 2
-  selectGrid: 3
+  arrangeHand: 3
   hand: []
   playerHand: []
   temp: []
   cs: {fileID: 0}
   p_charaPrefabs:
   - {fileID: 3452994261821928535, guid: 5f6ffcc7e01787b46bec9f3a9ea15e91, type: 3}
-  - {fileID: 3452994261821928535, guid: 9ed7fd8154825d546983fdf0cbcae567, type: 3}
-  - {fileID: 3452994261821928535, guid: 6569ca79a03c70f479e3531475804035, type: 3}
+  hand_initPos: {x: -6, y: -5.35, z: 0}
+  hand_interval: 2.5
 --- !u!4 &43561656
 Transform:
   m_ObjectHideFlags: 0
@@ -506,3 +506,54 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.02, y: 1.2}
   m_EdgeRadius: 0
+--- !u!1 &1770998376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1770998378}
+  - component: {fileID: 1770998377}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1770998377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770998376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a797d0c8cd6264ca9ce2399dbd64ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHand: []
+  selectedChara: {fileID: 0}
+  cardPicked: {fileID: 0}
+  card_atTargetPos: {x: 0, y: 0, z: 0}
+  arrangeThreshold_y: -2.5
+  arrangeThreshold_x: 0.7
+  cardHolders: []
+  cardHolder_indexes: 
+--- !u!4 &1770998378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770998376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.3167937, y: 1.5146542, z: -2.9463856}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

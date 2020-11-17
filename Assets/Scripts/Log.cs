@@ -1,4 +1,12 @@
-﻿
+﻿// 11/17 v0.4
+// features:
+	// xshow characters' hand
+	// xchange characters' hand's order
+	// battle
+	// advance turns
+
+//--------------------------------------
+
 // 10/25 v0.3
 // bug:
 	// x选取目标后点击自己会break 
@@ -7,12 +15,16 @@
 // next:
 	// show characters' hand
 
+//--------------------------------------
+
 // 10/11 v0.2
 // added:
 	// show player's card
 	// choose character's target
 // next:
 	// multiple chara
+
+//--------------------------------------
 
 // 10/10 v0.1
 // added:
@@ -22,6 +34,8 @@
 // next:
 	// show cards
 	// choose character's target
+
+//--------------------------------------
 
 // 9/26 v0.0
 // added:

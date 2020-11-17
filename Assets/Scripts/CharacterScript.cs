@@ -7,8 +7,9 @@ public class CharacterScript : MonoBehaviour
 {
 	public GameObject hightlightFrame;
 
-	public List<CardScriptableObject> deck;
-	public List<CardScriptableObject> hand;
+	public List<GameObject> deck;
+	public List<GameObject> handPrefabs;
+	public List<GameObject> hand;
 	public int row;
 	public int column;
 	public int handSize;
@@ -22,9 +23,11 @@ public class CharacterScript : MonoBehaviour
 	public GameObject linePrefab;
 	GameObject myLine;
 
+	
+
 	private void Start()
 	{
-		hand = new List<CardScriptableObject>();
+		handPrefabs = new List<GameObject>();
 		destinationPos = transform.position;
 		myLine = Instantiate(linePrefab);
 	}
@@ -32,7 +35,7 @@ public class CharacterScript : MonoBehaviour
 	private void OnMouseOver()
 	{
 		if (GameManager.me.state == GameManager.me.selectCharacter ||
-			GameManager.me.state == GameManager.me.selectGrid)
+			GameManager.me.state == GameManager.me.arrangeHand)
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
@@ -45,10 +48,28 @@ public class CharacterScript : MonoBehaviour
 				else
 				{
 					GameManager.me.cs = gameObject.GetComponent<CharacterScript>();
-					hightlightFrame.SetActive(true);
-					destinationPos = transform.position;
-					GameManager.me.state = GameManager.me.selectGrid;
-					GetComponent<BoxCollider2D>().enabled = true;
+					hightlightFrame.SetActive(true); // highlight character
+													 //destinationPos = transform.position;
+					
+					// set card manager's [current hand]
+					for (int i = 0; i < handSize; i++)
+					{
+						CardManager.me.currentHand.Add(hand[i]);
+						CardManager.me.cardHolders.Add(hand[i].transform.position);
+					}
+
+					// set card manager's [selected chara]
+					CardManager.me.selectedChara = gameObject;
+
+					// show hand
+					foreach (GameObject card in hand)
+					{
+						card.GetComponent<SpriteRenderer>().enabled = true;
+					}
+
+					// change state
+					GameManager.me.state = GameManager.me.arrangeHand;
+					//GetComponent<BoxCollider2D>().enabled = true;
 				}
 			}
 		}
@@ -63,16 +84,16 @@ public class CharacterScript : MonoBehaviour
 
 		if (GameManager.me.state == GameManager.me.draw)
 		{
-			if (hand.Count == 0)
+			if (handPrefabs.Count == 0)
 			{
-				hand = GameManager.me.DrawCharacterHand(deck, gameObject);
+				handPrefabs = GameManager.me.DrawCharacterHand(deck, gameObject);
 			}
-			else if (hand.Count == handSize)
+			else if (handPrefabs.Count == handSize)
 			{
 				drawComplete = true;
 			}
 		}
-		else if (GameManager.me.state == GameManager.me.selectGrid)
+		else if (GameManager.me.state == GameManager.me.arrangeHand)
 		{
 			if (destinationPos != transform.position)
 			{
@@ -82,11 +103,11 @@ public class CharacterScript : MonoBehaviour
 				GameManager.me.state = GameManager.me.selectCharacter;
 				hightlightFrame.SetActive(false);
 			}
-			else if (Input.GetMouseButtonDown(1))
-			{
-				GameManager.me.state = GameManager.me.selectCharacter;
-				hightlightFrame.SetActive(false);
-			}
+			//else if (Input.GetMouseButtonDown(1))
+			//{
+			//	GameManager.me.state = GameManager.me.selectCharacter;
+			//	hightlightFrame.SetActive(false);
+			//}
 		}
 	}
 }

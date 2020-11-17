@@ -9,7 +9,7 @@ public class GridScript : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameManager.me.state == GameManager.me.selectGrid)
+		if (GameManager.me.state == GameManager.me.arrangeHand)
 		{
 			for (int i = 0; i < GameManager.me.enemies.Count; i++)
 			{
@@ -20,7 +20,7 @@ public class GridScript : MonoBehaviour
 				}
 				else
 				{
-					GetComponent<BoxCollider2D>().enabled = true;
+					//GetComponent<BoxCollider2D>().enabled = true;
 				}
 			}
 		}
@@ -32,15 +32,10 @@ public class GridScript : MonoBehaviour
 
 	private void OnMouseOver()
 	{
-		if (GameManager.me.state == GameManager.me.selectGrid)
+		if (GameManager.me.state == GameManager.me.arrangeHand)
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				//print(GameManager.me.state);
-				print(row);
-				print(column);
-				print(GameManager.me.cs.row);
-				print(GameManager.me.cs.column);
 				// check if this grid is next to the character
 				if (row >= GameManager.me.cs.row - 1 &&
 					row <= GameManager.me.cs.row + 1 &&
@@ -66,10 +61,10 @@ public class GridScript : MonoBehaviour
 						}
 						if (occupied == 0)
 						{
-							GameManager.me.cs.destinationPos = transform.position;
-							GameManager.me.cs.row = row;
-							GameManager.me.cs.column = column;
-							GameManager.me.cs = null;
+							//GameManager.me.cs.destinationPos = transform.position;
+							//GameManager.me.cs.row = row;
+							//GameManager.me.cs.column = column;
+							//GameManager.me.cs = null;
 						}
 					}
 				}

@@ -21,20 +21,23 @@ public class GameManager : MonoBehaviour
 	public int state = 0;
 	public int draw = 1;
 	public int selectCharacter = 2;
-	public int selectGrid = 3;
+	public int arrangeHand = 3;
 
-	public List<CardScriptableObject> hand;
+	public List<GameObject> hand;
 	public List<CardScriptableObject> playerHand;
-	public List<CardScriptableObject> temp;
+	public List<GameObject> temp;
 
 	// positioning characters
 	public CharacterScript cs;
 
 	// show target
-	//public GameObject line;
 
 	// initialize characters
 	public List<GameObject> p_charaPrefabs;
+
+	// show hand
+	public Vector3 hand_initPos;
+	public float hand_interval;
 
 	private void Start()
 	{
@@ -60,34 +63,54 @@ public class GameManager : MonoBehaviour
 		//{
 		//	ShowTarget(characters[0].transform.position, characters[0].GetComponent<CharacterScript>().target.transform.position);
 		//}
-		
+
 		if (state == draw)
 		{
-			//if (characters[0].GetComponent<CharacterScript>().hand.Count == 0)
-			//{
-			//	characters[0].GetComponent<CharacterScript>().hand = DrawCharacterHand(characters[0].GetComponent<CharacterScript>().deck, characters[0]);
-			//}
-			if (player.GetComponent<PlayerScript>().hand.Count == 0)
+			for (int i = 0; i < characters.Count; i++)
 			{
-				player.GetComponent<PlayerScript>().hand = DrawPlayerHand(player.GetComponent<PlayerScript>().deck, player);
-			}
-			if (player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
-			{
-				int drawCompleteNum = 0;
-				for (int i = 0; i < characters.Count; i++)
+				CharacterScript thisCS = characters[i].GetComponent<CharacterScript>();
+				if (thisCS.handPrefabs.Count == 0)
 				{
-					if (characters[i].GetComponent<CharacterScript>().drawComplete)
+					thisCS.handPrefabs = DrawCharacterHand(thisCS.deck, characters[i]);
+					if (thisCS.handPrefabs.Count == thisCS.handSize)
 					{
-						drawCompleteNum++;
+						for (int j = 0; j < thisCS.handPrefabs.Count; j++)
+						{
+							GameObject thisCard = Instantiate(thisCS.handPrefabs[j]);
+							thisCard.transform.position = new Vector3(hand_initPos.x + hand_interval * j,
+																	  hand_initPos.y,
+																	  hand_initPos.z);
+							thisCS.hand.Add(thisCard);
+							thisCard.GetComponent<SpriteRenderer>().enabled = false;
+						}
+						hand.Clear();
 					}
-				}
-				if (drawCompleteNum == characters.Count)
-				{
-					state = selectCharacter;
+					temp.Clear();
 				}
 			}
+			state = selectCharacter;
+
+			//if (player.GetComponent<PlayerScript>().hand.Count == 0)
+			//{
+			//	player.GetComponent<PlayerScript>().hand = DrawPlayerHand(player.GetComponent<PlayerScript>().deck, player);
+			//}
+			//if (player.GetComponent<PlayerScript>().hand.Count == player.GetComponent<PlayerScript>().handSize)
+			//{
+			//	int drawCompleteNum = 0;
+			//	for (int i = 0; i < characters.Count; i++)
+			//	{
+			//		if (characters[i].GetComponent<CharacterScript>().drawComplete)
+			//		{
+			//			drawCompleteNum++;
+			//		}
+			//	}
+			//	if (drawCompleteNum == characters.Count)
+			//	{
+			//		state = selectCharacter;
+			//	}
+			//}
 		}
-		else if (state == selectGrid)
+		else if (state == arrangeHand)
 		{
 			//if (destinationPos != cs.transform.position)
 			//{
@@ -99,16 +122,41 @@ public class GameManager : MonoBehaviour
 				//}
 			if (Input.GetMouseButtonDown(1))
 			{
+				// copy card manager's current hand back to the character's hand
+				CardManager.me.selectedChara.GetComponent<CharacterScript>().hand.Clear();
+				for (int i = 0; i < CardManager.me.currentHand.Count; i++)
+				{
+					CardManager.me.selectedChara.GetComponent<CharacterScript>().hand.Add(CardManager.me.currentHand[i]);
+				}
+				CardManager.me.currentHand.Clear(); // reset current hand
+				CardManager.me.cardHolders.Clear(); // reset card holders
+				CardManager.me.cardHolder_indexes.Clear(); // reset card holder indexes
 				state = selectCharacter;
 				for (int i = 0; i < characters.Count; i++)
 				{
 					characters[i].GetComponent<CharacterScript>().hightlightFrame.SetActive(false);
+					foreach (GameObject card in characters[i].GetComponent<CharacterScript>().hand)
+					{
+						card.GetComponent<SpriteRenderer>().enabled = false;
+					}
 				}
 			}
 		}
 	}
 
-	public List<CardScriptableObject> DrawCharacterHand(List<CardScriptableObject> deck, GameObject owner)
+	//private IEnumerator CurrentHand_to_charaHand()
+	//{
+	//	CharacterScript cs = CardManager.me.selectedChara.GetComponent<CharacterScript>();
+	//	while (cs.hand.Count < cs.handSize)
+	//	{
+	//		for (int i = 0; i < CardManager.me.currentHand.Count; i++)
+	//		{
+	//			CardManager.me.selectedChara.GetComponent<CharacterScript>().hand.Add(CardManager.me.currentHand[i]);
+	//		}
+	//	}
+	//}
+
+	public List<GameObject> DrawCharacterHand(List<GameObject> deck, GameObject owner)
 	{
 		hand.Clear();
 		CopyList(deck, temp);
@@ -129,28 +177,28 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private List<CardScriptableObject> DrawPlayerHand(List<CardScriptableObject> deck, GameObject owner)
-	{
-		playerHand.Clear();
-		CopyList(deck, temp);
-		for (int i = 0; i < owner.GetComponent<PlayerScript>().handSize; i++)
-		{
-			int rn = UnityEngine.Random.Range(0, temp.Count);
-			playerHand.Add(temp[rn]);
-			temp.RemoveAt(rn);
-		}
-		if (playerHand.Count == owner.GetComponent<PlayerScript>().handSize)
-		{
-			temp.Clear();
-			return playerHand;
-		}
-		else
-		{
-			return null;
-		}
-	}
+	//private List<CardScriptableObject> DrawPlayerHand(List<CardScriptableObject> deck, GameObject owner)
+	//{
+		//playerHand.Clear();
+		//CopyList(deck, temp);
+		//for (int i = 0; i < owner.GetComponent<PlayerScript>().handSize; i++)
+		//{
+		//	int rn = UnityEngine.Random.Range(0, temp.Count);
+		//	playerHand.Add(temp[rn]);
+		//	temp.RemoveAt(rn);
+		//}
+		//if (playerHand.Count == owner.GetComponent<PlayerScript>().handSize)
+		//{
+		//	temp.Clear();
+		//	return playerHand;
+		//}
+		//else
+		//{
+		//	return null;
+		//}
+	//}
 
-	private void CopyList(List<CardScriptableObject> from, List<CardScriptableObject> to)
+	private void CopyList(List<GameObject> from, List<GameObject> to)
 	{
 		for (int i = 0; i < from.Count; i++)
 		{

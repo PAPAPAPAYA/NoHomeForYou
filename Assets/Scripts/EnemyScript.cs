@@ -9,7 +9,7 @@ public class EnemyScript : MonoBehaviour
 
 	private void OnMouseOver()
 	{
-		if (GameManager.me.state == GameManager.me.selectGrid)
+		if (GameManager.me.state == GameManager.me.arrangeHand)
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
