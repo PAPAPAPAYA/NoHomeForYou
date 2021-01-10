@@ -41,6 +41,8 @@ public class CardScript : MonoBehaviour
 
 	private void Update()
 	{
+		print(dragging);
+		print(CardManager.me.cardPicked);
 		//print(index);
 		if (transform.position == ogPos &&
 			CardManager.me.cardPicked == null &&
